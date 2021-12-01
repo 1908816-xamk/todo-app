@@ -1,8 +1,8 @@
 import React from "react";
 import axios from "axios";
 import { Tabs, Tab } from "react-bootstrap";
-import { TodoListAll, TodoListDone, TodoListUndone } from "./TodoList.js";
-import { TodoForm, Title } from "./TodoForm.js";
+import {TodoListAll, TodoListFiltered} from "./TodoList";
+import { TodoForm, Title } from "./TodoForm";
 
 class TodoApp extends React.Component {
   constructor(props) {
@@ -64,24 +64,27 @@ class TodoApp extends React.Component {
   }
 
   render() {
-    // Renderoidaan JSX-sisältö
     return (
       <div className="mb-5">
         <Title todoCount={this.state.data.length} />
         <TodoForm addTodo={this.addTodo.bind(this)} />
         <Tabs defaultActiveKey="unmade" id="todo-tabs" className="mb-3">
           <Tab eventKey="unmade" title="Tekemättä">
-            <TodoListUndone
+            <TodoListFiltered
               todos={this.state.data}
               update={this.handleUpdate.bind(this)}
               remove={this.handleRemove.bind(this)}
+              dis={false}
+              filter={3}
             />
           </Tab>
           <Tab eventKey="done" title="Tehty">
-            <TodoListDone
+            <TodoListFiltered
               todos={this.state.data}
               update={this.handleUpdate.bind(this)}
               remove={this.handleRemove.bind(this)}
+              dis={true}
+              filter={2}
             />
           </Tab>
           <Tab eventKey="all" title="Kaikki">
@@ -89,6 +92,7 @@ class TodoApp extends React.Component {
               todos={this.state.data}
               update={this.handleUpdate.bind(this)}
               remove={this.handleRemove.bind(this)}
+              dis={true}
             />
           </Tab>
         </Tabs>
